@@ -3,6 +3,7 @@ package com.senac.jogos.labirinto;
 import static java.lang.System.*;
 
 import java.io.FileInputStream;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Labirinto {
@@ -10,7 +11,7 @@ public class Labirinto {
 	private static final Scanner teclado = new Scanner(System.in);
 	
 	private static Sala[] salas;
-	private int countSalas;
+	private static int countSalas;
 	private static int salaAtual;
 	private static String direcao;
 	
@@ -37,7 +38,7 @@ public class Labirinto {
 	{
 		salas = new Sala[50];
 		salas[0] = new Sala();
-		countSalas = 1;
+		countSalas = 0;
 		try {
 			leLabirinto( new Scanner( new FileInputStream("labirinto.txt") ) );
 		} catch (Exception e) {
@@ -53,6 +54,7 @@ public class Labirinto {
 			int salaId = arquivo.nextInt();
 			salas[salaId] = new Sala();
 			Sala sala = salas[salaId];
+			countSalas = countSalas + 1;
 			
 			String direcao = arquivo.next();
 
@@ -81,21 +83,21 @@ public class Labirinto {
 	}
 	
 	public static void mover() throws Exception{
+		Scanner sc = new Scanner(System.in);
+		out.println(salas[salaAtual]);
 		do{
-			Scanner sc = new Scanner(System.in);
-			out.println(salas[salaAtual]);
-		
-			out.println("Para onde deseja ir: \nou digite sair");
+			out.println("Para onde deseja ir: ");
 			direcao = sc.next();
 			
 			if(direcao.equals("sair")){
 				out.println("voce desistiu!");
-				return;
+				exit(0);
 			}else{
 		
 			Sala s = salas[salaAtual]; 
 			salaAtual = s.getSaida(direcao);
-		
+			
+			out.println("Voce esta na sala: " + salaAtual);
 			out.println(salas[salaAtual]);
 			}
 		}while(!direcao.equals("sair"));
@@ -104,8 +106,10 @@ public class Labirinto {
 	public static void main(String[] args) throws Exception
 	{
 		(new Labirinto()).run();
+		Random random = new Random();
 		
-		salaAtual = 10;
+		salaAtual = random.nextInt(countSalas);
+		out.println("Voce esta na sala: " + salaAtual);
 		mover();
 	}
 }
