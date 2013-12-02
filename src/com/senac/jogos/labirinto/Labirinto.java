@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Labirinto {
 	
-	private static final Scanner teclado = new Scanner(System.in);
+	//private static final Scanner teclado = new Scanner(System.in);
 	
 	private static Sala[] salas;
 	private static int countSalas;
